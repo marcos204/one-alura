@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,32 +9,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Inter:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>JS Game</title>
+    <title>Amigo Secreto</title>
 </head>
-
 <body>
-
     <div class="container">
         <div class="container__conteudo">
             <div class="container__informacoes">
                 <div class="container__texto">
-                    <h1>Adivinhe o <span class="container__texto-azul">numero secreto</span></h1>
-                    <p class="texto__paragrafo">Escolha um número entre 1 a 10</p>
+                    <h1>Amigo <span class="container__texto-azul">Secreto</span></h1>
+                    <p class="texto__paragrafo">Adicione os nomes dos participantes</p>
                 </div>
-                <input type="number" min="1" max="10" class="container__input">
+                <input type="text" id="nomeInput" class="container__input" placeholder="Digite o nome">
                 <div class="chute container__botoes">
-                    <button onclick="verificarChute()" class="container__botao">Chutar</button>
-                    <button onclick="reiniciarJogo()" id="reiniciar" class="container__botao" disabled>Novo jogo</button>
+                    <button onclick="adicionarNome()" class="container__botao">Adicionar</button>
+                    <button onclick="sortearAmigo()" id="sortearBtn" class="container__botao" disabled>Sortear</button>
                 </div>
+                <ul id="listaNomes" class="container__texto"></ul>
+                <p id="resultado" class="texto__paragrafo"></p>
             </div>
             <img src="./img/ia.png" alt="Uma pessoa olhando para a esquerda" class="container__imagem-pessoa" />
         </div>
     </div>
 
-
-
-
     <script src="app.js" defer></script>
 </body>
-
 </html>

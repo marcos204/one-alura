@@ -1,70 +1,51 @@
-let listaDeNumerosSorteados = [];
-let numeroLimite = 10;
-let numeroSecreto = gerarNumeroAleatorio();
-let tentativas = 1;
+let listaDeNomes = [];
 
-function exibirTextoNaTela(tag, texto) {
-    let campo = document.querySelector(tag);
-    campo.innerHTML = texto;
-    responsiveVoice.speak(texto, 'Brazilian Portuguese Female', {rate:1.2});
+function adicionarNome() {
+    const nomeInput = document.getElementById('nomeInput');
+    const nome = nomeInput.value.trim();
+
+    if (nome === "") {
+        alert("Por favor, insira um nome válido.");
+        return;
+    }
+
+    listaDeNomes.push(nome);
+    nomeInput.value = "";
+
+    atualizarLista();
 }
 
-function exibirMensagemInicial() {
-    exibirTextoNaTela('h1', 'Jogo do número secreto');
-    exibirTextoNaTela('p', 'Escolha um número entre 1 e 10');
-}
+function atualizarLista() {
+    const listaNomes = document.getElementById('listaNomes');
+    listaNomes.innerHTML = "";
 
-exibirMensagemInicial();
+    listaDeNomes.forEach(nome => {
+        const li = document.createElement('li');
+        li.textContent = nome;
+        listaNomes.appendChild(li);
+    });
 
-function verificarChute() {
-    let chute = document.querySelector('input').value;
-    
-    if (chute == numeroSecreto) {
-        exibirTextoNaTela('h1', 'Acertou!');
-        let palavraTentativa = tentativas > 1 ? 'tentativas' : 'tentativa';
-        let mensagemTentativas = `Você descobriu o número secreto com ${tentativas} ${palavraTentativa}!`;
-        exibirTextoNaTela('p', mensagemTentativas);
-        document.getElementById('reiniciar').removeAttribute('disabled');
+    const sortearBtn = document.getElementById('sortearBtn');
+    if (listaDeNomes.length > 1) {
+        sortearBtn.removeAttribute('disabled');
     } else {
-        if (chute > numeroSecreto) {
-            exibirTextoNaTela('p', 'O número secreto é menor');
-        } else {
-            exibirTextoNaTela('p', 'O número secreto é maior');
-        }
-        tentativas++;
-        limparCampo();
+        sortearBtn.setAttribute('disabled', true);
     }
 }
 
-function gerarNumeroAleatorio() {
-    let numeroEscolhido = parseInt(Math.random() * numeroLimite + 1);
-    let quantidadeDeElementosNaLista = listaDeNumerosSorteados.length;
-
-    if (quantidadeDeElementosNaLista == numeroLimite) {
-        listaDeNumerosSorteados = [];
+function sortearAmigo() {
+    if (listaDeNomes.length < 2) {
+        alert("Adicione pelo menos dois nomes para sortear.");
+        return;
     }
-    if (listaDeNumerosSorteados.includes(numeroEscolhido)) {
-        return gerarNumeroAleatorio();
-    } else {
-        listaDeNumerosSorteados.push(numeroEscolhido);
-        console.log(listaDeNumerosSorteados)
-        return numeroEscolhido;
-    }
-}
 
-function limparCampo() {
-    chute = document.querySelector('input');
-    chute.value = '';
-}
+    const indiceSorteado = Math.floor(Math.random() * listaDeNomes.length);
+    const nomeSorteado = listaDeNomes[indiceSorteado];
 
-function reiniciarJogo() {
-    numeroSecreto = gerarNumeroAleatorio();
-    limparCampo();
-    tentativas = 1;
-    exibirMensagemInicial();
-    document.getElementById('reiniciar').setAttribute('disabled', true)
+    const resultado = document.getElementById('resultado');
+    resultado.textContent = `O amigo secreto é: ${nomeSorteado}`;
+    responsiveVoice.speak(`O amigo secreto é: ${nomeSorteado}`, 'Brazilian Portuguese Female', { rate: 1.2 });
 }
-
 
 
 
